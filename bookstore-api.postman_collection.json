@@ -1,0 +1,67 @@
+{
+	"info": {
+		"name": "Bookstore API",
+		"description": "REST API Collection for Bookstore Inventory Management.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Book",
+			"request": {
+				"method": "POST",
+				"header": [{"key": "Content-Type", "value": "application/json"}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"The Buddha and his dhamma\",\n  \"author\": \"Dr. B. R. Ambedakar\",\n  \"isbn\": \"978-0135957059\",\n  \"price\": 49.99,\n  \"stock_quantity\": 15,\n  \"published_date\": \"2019-09-13\"\n}"
+				},
+				"url": {"raw": "{{base_url}}/books/", "host": ["{{base_url}}"], "path": ["books", ""]}
+			}
+		},
+		{
+			"name": "Get All Books",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{base_url}}/books/?title=Pragmatic&min_price=10",
+					"host": ["{{base_url}}"],
+					"path": ["books", ""],
+					"query": [
+						{"key": "title", "value": "Pragmatic"},
+						{"key": "author", "value": "David", "disabled": true},
+						{"key": "min_price", "value": "10"}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Book by ID",
+			"request": {
+				"method": "GET",
+				"url": {"raw": "{{base_url}}/books/{{book_id}}", "host": ["{{base_url}}"], "path": ["books", "{{book_id}}"]}
+			}
+		},
+		{
+			"name": "Update Book",
+			"request": {
+				"method": "PUT",
+				"header": [{"key": "Content-Type", "value": "application/json"}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"price\": 39.99,\n  \"stock_quantity\": 10\n}"
+				},
+				"url": {"raw": "{{base_url}}/books/{{book_id}}", "host": ["{{base_url}}"], "path": ["books", "{{book_id}}"]}
+			}
+		},
+		{
+			"name": "Delete Book",
+			"request": {
+				"method": "DELETE",
+				"url": {"raw": "{{base_url}}/books/{{book_id}}", "host": ["{{base_url}}"], "path": ["books", "{{book_id}}"]}
+			}
+		}
+	],
+	"variable": [
+		{ "key": "base_url", "value": "http://127.0.0.1:8000" },
+		{ "key": "book_id", "value": "REPLACE_WITH_UUID_FROM_POST" }
+	]
+}
