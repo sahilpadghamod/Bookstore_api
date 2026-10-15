@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: bookstore_admin
+      POSTGRES_PASSWORD: secure_db_password
+      POSTGRES_DB: bookstore_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://bookstore_admin:secure_db_password@db:5432/bookstore_db
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:
